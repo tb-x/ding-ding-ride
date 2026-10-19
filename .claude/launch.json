@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "bike-ride",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "5216"],
+      "port": 5216
+    }
+  ]
+}
