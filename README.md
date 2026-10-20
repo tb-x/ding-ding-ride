@@ -20,6 +20,23 @@ Play it at https://tb-x.github.io/ding-ding-ride/.
 - **Stars:** 3 for no mistakes, 2 for one or two, 1 otherwise. You get a sticker of the place you rode to. The next ride unlocks when you finish one. The strip at the top shows the rider moving towards the place, with a dot for each stop (yellow if done right first time).
 - 🎨 on the start screen changes the bike, helmet and shirt colours (it starts with a yellow bike and a red helmet). 🏠 goes back to the list of all games.
 
+## Seasons and weather
+
+Every time a ride starts it gets a season and a weather, picked at random (never the same twice in a row). The streets and the stops stay the same, so a ride can be learned, but it looks different each time. The rules don't change with the weather.
+
+- **Spring**: fresh green trees, some in pink blossom, flowers in the grass, petals drifting down. Sometimes showers with a rainbow, rain or fog.
+- **Summer**: deep green, sun hats, the rider in shorts. Sometimes a windy day or a shower.
+- **Autumn**: orange and red trees, leaves on the ground and blowing about, coats. Often rain, fog or wind.
+- **Winter**: snow on the ground, the roofs and the cars, bare trees, snowy fir trees, snowmen in the parks and gardens, everyone in hats and scarves (the rider gets a scarf and gloves). Snowing, crisp and sunny, or foggy.
+- **Rain**: wet dark paving, puddles with raindrops rippling in them, umbrellas. Riding through a puddle on the path splashes. Cars drive with their lights on in rain, fog and snow, and the windows glow.
+- The duck pond is only in spring and summer (ducklings), the ice cream shop and the evening beach ride only in summer, and the evening ride is always dry.
+
+## The town
+
+The town is built in code from four kinds of block, so each ride passes different streets: old town houses (2–7 floors, pitched roofs with dormers, balconies with flowers, shops with striped awnings, Polish name boards like PIEKARNIA or APTEKA and round picture signs), family houses with gardens, fences or hedges, letterboxes and the odd garden gnome, blocks of flats with coloured balconies, a parking strip and a carpet-beater in the yard, and parks with a fountain, a playground, a flower bed, a football pitch or a church. Along the sidewalks there are benches, bins, post boxes, fire hydrants, bike racks, planters and advertising columns, and the trees are round, birch, poplar or fir. Cars come in eight shapes (hatchback, saloon, estate, SUV, coupé, a little Maluch, a van, a taxi) with Polish number plates, wheels that turn, and see-through windows with seats and a driver inside.
+
+The first ride is all park: gravel paths with stone edging and old-style lanterns, benches, flower beds, meadows and avenues of trees between the paths, joggers and dog walkers, a kid flying a kite, butterflies on sunny days, and signposts with pictures. It ends at a duck pond with an island and a duck house, lily pads, reeds, a pier with a rowing boat, a willow, swans and ducklings.
+
 ## The eight rides
 
 | # | To | New rule |
@@ -37,7 +54,7 @@ Play it at https://tb-x.github.io/ding-ding-ride/.
 
 It's one page plus the sound clips in `assets/`. Serve the folder (for example `python -m http.server 5216`) and open it in a browser; it needs an internet connection the first time for the 3D library and the title font. No build step. Opening it straight from disk also works.
 
-Built with [three.js](https://threejs.org/). Every model (the town, the rider, cars, people, ducks) is built in code; there are no picture files apart from the icons.
+Built with [three.js](https://threejs.org/). Every model (the town, the rider, cars, people, ducks) is built in code; there are no picture files apart from the icons. Parts of each model that don't move are merged into one mesh with its colours stored per vertex, and every kind and colour of car is built once and shared, so the detailed town still draws in about 200–300 draw calls.
 
 ## Play offline (add to Home Screen)
 
@@ -62,10 +79,15 @@ At the top of the script in `index.html`:
 - `CAM_DIST`, `CAM_HEIGHT`: where the camera sits behind the rider.
 - `RIDES`: one row per ride. The route is written as moves from street corner to street corner (E/W/N/S), with what happens on each: `zebra` or `lights` for a crossing (plus `siren`), and `flag`, `ducks`, `people`, `dog`, `driveway`, `bus` along a block. `traffic` is the average seconds between cars in each lane.
 - `COLOURS`: the colour sets 🎨 cycles through.
+- `SEASONS`, `WEATHER`: the seasons, and how likely each weather is in each one. A ride's `seasons` in `RIDES` limits which seasons it can have.
+- `WIND`, `RAIN_SPEED`, `SNOW_SPEED`: how hard the wind blows on windy days, and how fast rain and snow fall.
+- `STYLE_W` (in the cars section): how common each kind of car is.
+
+To try a particular season or weather, add it to the address, for example `index.html?season=winter&weather=snow`. Weathers: `sun`, `showers`, `rain`, `fog`, `wind`, `snow`, `frosty`.
 
 ## Sound
 
-Voices and sounds: [elevenlabs.io](https://elevenlabs.io). The credit also shows on the title screen and the win card. Every spoken line and most sounds are recorded clips in `assets/`. Each one falls back to a sound made in the browser (or the device's own voice) if a clip can't load, for example when the page is opened straight from disk. The crossing's tick-tick, the freewheel clicks, the little "ding" for a stop done right and the duckling peeps are always made in the browser. There's no background music, so the sirens and the crossing beeper are easy to hear.
+Voices and sounds: [elevenlabs.io](https://elevenlabs.io). The credit also shows on the title screen and the win card. Every spoken line and most sounds are recorded clips in `assets/`. Each one falls back to a sound made in the browser (or the device's own voice) if a clip can't load, for example when the page is opened straight from disk. The crossing's tick-tick, the freewheel clicks, the splash through a puddle, the little "ding" for a stop done right and the duckling peeps are always made in the browser. There's no background music, so the sirens and the crossing beeper are easy to hear.
 
 Sound knobs, in the sound section of the script:
 
